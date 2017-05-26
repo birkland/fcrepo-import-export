@@ -129,7 +129,6 @@
 
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>${failsafe.plugin.version}</version>
         <configuration>
           <!--Set reuseForks=false due to the need for different instances of the -->
           <!--Singleton ServletContainerAuthenticationProvider -->

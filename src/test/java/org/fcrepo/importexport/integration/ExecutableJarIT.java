@@ -121,13 +121,14 @@ public class ExecutableJarIT extends AbstractResourceIT {
 
         // Create test config file
         final File configFile = File.createTempFile("config-test", ".txt");
-        final FileWriter writer = new FileWriter(configFile);
-        writer.append("dir: " + TARGET_DIR + "\n");
-        writer.append("mode: export\n");
-        writer.append("resource: ");
-        writer.append(url.toString());
-        writer.append("\n");
-        writer.flush();
+        try (final FileWriter writer = new FileWriter(configFile)) {
+            writer.append("dir: " + TARGET_DIR + "\n");
+            writer.append("mode: export\n");
+            writer.append("resource: ");
+            writer.append(url.toString());
+            writer.append("\n");
+            writer.flush();
+        }
 
         // Run an export process
         final Process process = startJarProcess("-c", configFile.getAbsolutePath(), "-u", "fedoraAdmin:password");

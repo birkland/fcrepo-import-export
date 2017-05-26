@@ -32,7 +32,6 @@ import static org.mockito.Mockito.when;
 import static org.fcrepo.importexport.common.FcrepoConstants.REPOSITORY_NAMESPACE;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
@@ -75,8 +74,6 @@ public class ImporterTest {
     private URI containerURI;
     private URI pairtreeURI;
     private URI finalContainerURI;
-    private File binaryFilesDir;
-    private File externalFilesDir;
 
     private FcrepoResponse conResponse;
     private PutBuilder binBuilder;
@@ -93,7 +90,6 @@ public class ImporterTest {
         externalResourceDescriptionURI = new URI("http://example.org:9999/rest/ext1/fcr:metadata");
         containerURI = new URI("http://example.org:9999/rest/con1");
 
-        binaryFilesDir = new File("src/test/resources/sample/binary");
         binaryArgs = new Config();
         binaryArgs.setMode("import");
         binaryArgs.setBaseDirectory("src/test/resources/sample/binary");
@@ -110,7 +106,6 @@ public class ImporterTest {
         noBinaryArgs.setResource(new URI("http://example.org:9999/rest"));
         noBinaryArgs.setMap(new String[]{"http://localhost:8080/rest", "http://example.org:9999/rest"});
 
-        externalFilesDir = new File("src/test/resources/sample/external");
         externalResourceArgs = new Config();
         externalResourceArgs.setMode("import");
         externalResourceArgs.setBaseDirectory("src/test/resources/sample/external");

@@ -148,7 +148,6 @@ public class BagWriter {
 
     private void writeTagFile(final String key) throws IOException, NoSuchAlgorithmException {
         final Map<String, String> values = tagRegistry.get(key);
-        final Map<String, String> checksums = new HashMap<>();
         if (values != null) {
             final File f = new File(bagDir, key);
 

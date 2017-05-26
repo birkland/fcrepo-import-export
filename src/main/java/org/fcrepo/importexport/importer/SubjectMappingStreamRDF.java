@@ -20,12 +20,10 @@ package org.fcrepo.importexport.importer;
 import static org.apache.jena.graph.Factory.createDefaultGraph;
 import static org.apache.jena.rdf.model.ModelFactory.createModelForGraph;
 import static org.apache.jena.graph.NodeFactory.createURI;
-import static org.slf4j.LoggerFactory.getLogger;
 
 import java.net.URI;
 
 import org.apache.jena.rdf.model.Model;
-import org.slf4j.Logger;
 
 import org.apache.jena.atlas.lib.Sink;
 import org.apache.jena.graph.Graph;
@@ -41,7 +39,6 @@ import org.apache.jena.riot.system.StreamRDFBase;
  * @since 2016-09-08
  */
 public class SubjectMappingStreamRDF extends StreamRDFBase {
-    private static final Logger logger = getLogger(SubjectMappingStreamRDF.class);
 
     private final String sourceURI;
     private final String destinationURI;

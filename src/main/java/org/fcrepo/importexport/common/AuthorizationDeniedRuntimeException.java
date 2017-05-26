@@ -22,6 +22,7 @@ import java.net.URI;
 /**
  * @author Mike Durbin
  */
+@SuppressWarnings("serial")
 public class AuthorizationDeniedRuntimeException extends RuntimeException {
 
     /**

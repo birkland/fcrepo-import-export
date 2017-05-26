@@ -20,6 +20,7 @@ package org.fcrepo.importexport.common;
 /**
  * @author Mike Durbin
  */
+@SuppressWarnings("serial")
 public class AuthenticationRequiredRuntimeException extends RuntimeException {
 
     /**

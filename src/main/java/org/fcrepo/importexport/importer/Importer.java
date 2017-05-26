@@ -57,8 +57,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,10 +107,6 @@ public class Importer implements TransferProcess {
     private URI repositoryRoot = null;
     private Map<URI, String> placeholderLastModified;
 
-    private Bag bag;
-
-    private MessageDigest sha1;
-
     private Map<String, String> sha1FileMap;
 
     private Logger importLogger;
@@ -138,22 +132,16 @@ public class Importer implements TransferProcess {
         this.importLogger = config.getAuditLog();
         this.placeholderLastModified = new HashMap<>();
         if (config.getBagProfile() == null) {
-            this.bag = null;
-            this.sha1 = null;
             this.sha1FileMap = null;
         } else {
 
-            try {
                 final File bagdir = config.getBaseDirectory().getParentFile();
                 // TODO: Maybe use this once we get an updated release of bagit-java library
                 //if (verifyBag(bagdir)) {
                 final Path manifestPath = Paths.get(bagdir.getAbsolutePath()).resolve("manifest-sha1.txt");
                 this.sha1FileMap = TransferProcess.getSha1FileMap(bagdir, manifestPath);
-                this.sha1 = MessageDigest.getInstance("SHA-1");
                 // }
-            } catch (NoSuchAlgorithmException e) {
-                // never happens with known algorithm names
-            }
+
         }
     }
 
@@ -495,7 +483,6 @@ public class Importer implements TransferProcess {
         PutBuilder builder = client().put(uri).body(modelToStream(model), config.getRdfLanguage());
         if (sha1FileMap != null && config.getBagProfile() != null) {
             // Use the bagIt checksum
-            final File baseDir = config.getBaseDirectory();
             final File containerFile = Paths.get(fileForContainerURI(uri).toURI()).normalize().toFile();
             final String checksum = sha1FileMap.get(containerFile);
             logger.debug("Using Bagit checksum ({}) for file ({})", checksum, containerFile.getPath());

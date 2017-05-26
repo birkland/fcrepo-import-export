@@ -95,7 +95,6 @@ import org.slf4j.Logger;
 public class Exporter implements TransferProcess {
 
     private static final Logger logger = getLogger(Exporter.class);
-    private static final String APTRUST_INFO_TXT = "aptrust-info.txt";
 
     private Config config;
     protected FcrepoClient.FcrepoClientBuilder clientBuilder;

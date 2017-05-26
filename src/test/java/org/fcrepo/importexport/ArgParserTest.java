@@ -64,7 +64,7 @@ public class ArgParserTest {
         Assert.assertTrue(config.isExport());
         Assert.assertEquals(new File("/tmp/rdf"), config.getBaseDirectory());
         Assert.assertEquals(false, config.isIncludeBinaries());
-        Assert.assertEquals(new String[]{ CONTAINS.toString() }, config.getPredicates());
+        Assert.assertArrayEquals(new String[]{ CONTAINS.toString() }, config.getPredicates());
         Assert.assertEquals(".jsonld", config.getRdfExtension());
         Assert.assertEquals("application/ld+json", config.getRdfLanguage());
         Assert.assertEquals(new URI("http://localhost:8080/rest/1"), config.getResource());
@@ -149,7 +149,7 @@ public class ArgParserTest {
         Assert.assertTrue(config.isExport());
         Assert.assertEquals(new File("/tmp/rdf"), config.getBaseDirectory());
         Assert.assertEquals(false, config.isIncludeBinaries());
-        Assert.assertEquals(new String[]{ CONTAINS.toString() }, config.getPredicates());
+        Assert.assertArrayEquals(new String[]{ CONTAINS.toString() }, config.getPredicates());
         Assert.assertEquals(".ttl", config.getRdfExtension());
         Assert.assertEquals("text/turtle", config.getRdfLanguage());
         Assert.assertEquals(new URI("http://localhost:8080/rest/1"), config.getResource());
@@ -184,20 +184,21 @@ public class ArgParserTest {
     public void parseConfigFile() throws IOException {
         // Create test config file
         final File configFile = File.createTempFile("config-test", ".txt");
-        final FileWriter writer = new FileWriter(configFile);
-        writer.append("binaries: true\n");
-        writer.append("mode: export\n");
-        writer.append("resource: http://localhost:8080/rest/test\n");
-        writer.append("dir: /tmp/import-export-dir\n");
-        writer.append("predicates: http://www.w3.org/ns/ldp#contains,http://example.org/custom\n");
-        writer.flush();
+        try (final FileWriter writer = new FileWriter(configFile)) {
+            writer.append("binaries: true\n");
+            writer.append("mode: export\n");
+            writer.append("resource: http://localhost:8080/rest/test\n");
+            writer.append("dir: /tmp/import-export-dir\n");
+            writer.append("predicates: http://www.w3.org/ns/ldp#contains,http://example.org/custom\n");
+            writer.flush();
+        }
 
         final String[] args = new String[]{"-c", configFile.getAbsolutePath()};
         final Config config = parser.parseConfiguration(args);
         Assert.assertTrue(config.isExport());
         Assert.assertEquals(new File("/tmp/import-export-dir"), config.getBaseDirectory());
         Assert.assertEquals(true, config.isIncludeBinaries());
-        Assert.assertEquals(new String[]{"http://www.w3.org/ns/ldp#contains", "http://example.org/custom"},
+        Assert.assertArrayEquals(new String[]{"http://www.w3.org/ns/ldp#contains", "http://example.org/custom"},
                 config.getPredicates());
         Assert.assertEquals(".ttl", config.getRdfExtension());
         Assert.assertEquals("text/turtle", config.getRdfLanguage());
@@ -208,32 +209,33 @@ public class ArgParserTest {
     public void parseConfigBadKey() throws IOException {
         // Create test config file
         final File configFile = File.createTempFile("config-test", ".txt");
-        final FileWriter writer = new FileWriter(configFile);
-        writer.append("binaries: true\n");
-        writer.append("mode: export\n");
-        writer.append("resource: http://localhost:8080/rest/test\n");
-        writer.append("baditem: oops\n");
-        writer.append("dir: /tmp/import-export-dir\n");
-        writer.flush();
+        try (final FileWriter writer = new FileWriter(configFile)) {
+            writer.append("binaries: true\n");
+            writer.append("mode: export\n");
+            writer.append("resource: http://localhost:8080/rest/test\n");
+            writer.append("baditem: oops\n");
+            writer.append("dir: /tmp/import-export-dir\n");
+            writer.flush();
+        }
 
         final String[] args = new String[]{"-c", configFile.getAbsolutePath()};
-        final Config config = parser.parseConfiguration(args);
+        parser.parseConfiguration(args);
     }
 
     @Test (expected = RuntimeException.class)
     public void parseConfigBadValue() throws IOException {
         // Create test config file
         final File configFile = File.createTempFile("config-test", ".txt");
-        final FileWriter writer = new FileWriter(configFile);
-        writer.append("binaries: yep\n");
-        writer.append("mode: export\n");
-        writer.append("resource: http://localhost:8080/rest/test\n");
-        writer.append("dir: /tmp/import-export-dir\n");
-        writer.flush();
+        try (final FileWriter writer = new FileWriter(configFile)) {
+            writer.append("binaries: yep\n");
+            writer.append("mode: export\n");
+            writer.append("resource: http://localhost:8080/rest/test\n");
+            writer.append("dir: /tmp/import-export-dir\n");
+            writer.flush();
+        }
 
         final String[] args = new String[] { "-c", configFile.getAbsolutePath() };
-        final Config config = parser.parseConfiguration(args);
-
+        parser.parseConfiguration(args);
     }
 
     @Test(expected = RuntimeException.class)

@@ -141,7 +141,6 @@ public class ImporterIT extends AbstractResourceIT {
     @Test
     public void testImportMemberResources() throws Exception {
         final String sourceServerAddress = "http://localhost:8080/fcrepo/rest";
-        final URI sourceURI = URI.create(sourceServerAddress + "/linkFrom");
         final URI linkFrom = URI.create(serverAddress + "linkFrom");
         final URI linkTo = URI.create(serverAddress + "linkTo");
         final URI linkToFile1 = URI.create(serverAddress + "linkTo/file1");

@@ -23,10 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.jena.rdf.model.Model;
 import org.fcrepo.client.FcrepoClient;
 import org.fcrepo.client.FcrepoHttpClientBuilder;
@@ -96,11 +94,6 @@ public abstract class AbstractResourceIT {
     AbstractResourceIT() {
         clientBuilder = FcrepoClient.client().credentials(USERNAME, PASSWORD).authScope("localhost");
         setDefaultHttpClient(new FcrepoHttpClientBuilder(USERNAME, PASSWORD, "localhost").build());
-
-        final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-        connectionManager.setMaxTotal(Integer.MAX_VALUE);
-        connectionManager.setDefaultMaxPerRoute(20);
-        connectionManager.closeIdleConnections(3, TimeUnit.SECONDS);
     }
 
     @Before
